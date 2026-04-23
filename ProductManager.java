@@ -62,8 +62,8 @@ public class ProductManager implements Serializable {
 	                return;} 
 				else {
 	                System.out.println("Hata: Stok yetersiz, azaltma yapılamadı.");}
-	            return;}
-			System.out.println("Ürün bulunamadı!");}}
+	            return;}}
+			System.out.println("Ürün bulunamadı!");}
 	}
 	
 
