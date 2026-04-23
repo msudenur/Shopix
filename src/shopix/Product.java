@@ -1,4 +1,4 @@
-package shopix.zbt;
+package shopix;
 
 import java.io.Serializable;
 
