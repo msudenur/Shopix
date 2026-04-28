@@ -3,7 +3,7 @@ package shopix;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-public class ProductManager implements Serializable {
+public class ProductManager implements Serializable, IShopOperations {
 		private static ProductManager instance;
 	    private List<Product> productList;
 	

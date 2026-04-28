@@ -17,6 +17,7 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
+        // USERNAME
         JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(30, 30, 100, 25);
         add(usernameLabel);
@@ -25,6 +26,7 @@ public class LoginFrame extends JFrame {
         usernameField.setBounds(140, 30, 150, 25);
         add(usernameField);
 
+        // PASSWORD
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(30, 70, 100, 25);
         add(passwordLabel);
@@ -33,15 +35,17 @@ public class LoginFrame extends JFrame {
         passwordField.setBounds(140, 70, 150, 25);
         add(passwordField);
 
+        // LOGIN BUTTON
         JButton loginButton = new JButton("Giriş Yap");
         loginButton.setBounds(50, 130, 100, 30);
         add(loginButton);
 
+        // REGISTER BUTTON
         JButton registerButton = new JButton("Kayıt Ol");
         registerButton.setBounds(170, 130, 100, 30);
         add(registerButton);
 
-        // LOGIN
+        // LOGIN ACTION
         loginButton.addActionListener(e -> {
 
             String username = usernameField.getText();
@@ -51,14 +55,22 @@ public class LoginFrame extends JFrame {
 
             if (user != null) {
                 JOptionPane.showMessageDialog(this, "Giriş başarılı!");
-                new ProductFrame(productManager); // BURASI ÖNEMLİ
-                dispose();
+
+                // 🔥 ADMIN / CUSTOMER AYRIMI
+                if (user instanceof Admin) {
+                    new AdminFrame(productManager);
+                } else {
+                    new ProductFrame(productManager);
+                }
+
+                dispose(); // login ekranını kapat
+
             } else {
                 JOptionPane.showMessageDialog(this, "Hatalı giriş!");
             }
         });
 
-        // REGISTER
+        // REGISTER ACTION
         registerButton.addActionListener(e -> {
             new RegisterFrame(userManager);
         });
