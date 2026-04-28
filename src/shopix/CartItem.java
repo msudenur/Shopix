@@ -28,5 +28,10 @@ public class CartItem implements Serializable{
     
  // Nesne serileştirme sırasında versiyon kontrolü için kullanılan benzersiz kimlik
     private static final long serialVersionUID = 1L;
+    @Override
+    public String toString() {
+        return product.getProductName() + " x " + quantity + " = " 
+               + (product.getPrice() * quantity) + " TL";
+    }
 
 }

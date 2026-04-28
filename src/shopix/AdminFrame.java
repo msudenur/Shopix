@@ -1,72 +1,106 @@
 package shopix;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AdminFrame extends JFrame {
+    private ProductManager productManager;
+    private JList<Product> productList;
+
+    private JTextField idField;
+    private JTextField nameField;
+    private JTextField priceField;
+    private JTextField stockField;
+    private JTextField categoryField;
 
     public AdminFrame(ProductManager productManager) {
+        this.productManager = productManager;
 
-        setTitle("Admin Paneli");
-        setSize(450, 400);
-        setLayout(null);
+        setTitle("Shopix - Admin Paneli");
+        setSize(800, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("Ürün Yönetimi");
-        titleLabel.setBounds(170, 20, 150, 25);
-        add(titleLabel);
+        productList = new JList<>();
+        refreshProductList();
 
-        JLabel idLabel = new JLabel("Ürün ID:");
-        idLabel.setBounds(40, 60, 100, 25);
-        add(idLabel);
+        JPanel listPanel = new JPanel(new BorderLayout());
+        listPanel.add(new JLabel("Ürün Listesi"), BorderLayout.NORTH);
+        listPanel.add(new JScrollPane(productList), BorderLayout.CENTER);
 
-        JTextField idField = new JTextField();
-        idField.setBounds(150, 60, 180, 25);
-        add(idField);
+        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
 
-        JLabel nameLabel = new JLabel("Ürün Adı:");
-        nameLabel.setBounds(40, 95, 100, 25);
-        add(nameLabel);
+        idField = new JTextField();
+        nameField = new JTextField();
+        priceField = new JTextField();
+        stockField = new JTextField();
+        categoryField = new JTextField();
 
-        JTextField nameField = new JTextField();
-        nameField.setBounds(150, 95, 180, 25);
-        add(nameField);
+        formPanel.add(new JLabel("Ürün ID:"));
+        formPanel.add(idField);
 
-        JLabel priceLabel = new JLabel("Fiyat:");
-        priceLabel.setBounds(40, 130, 100, 25);
-        add(priceLabel);
+        formPanel.add(new JLabel("Ürün Adı:"));
+        formPanel.add(nameField);
 
-        JTextField priceField = new JTextField();
-        priceField.setBounds(150, 130, 180, 25);
-        add(priceField);
+        formPanel.add(new JLabel("Fiyat:"));
+        formPanel.add(priceField);
 
-        JLabel stockLabel = new JLabel("Stok:");
-        stockLabel.setBounds(40, 165, 100, 25);
-        add(stockLabel);
+        formPanel.add(new JLabel("Stok:"));
+        formPanel.add(stockField);
 
-        JTextField stockField = new JTextField();
-        stockField.setBounds(150, 165, 180, 25);
-        add(stockField);
-
-        JLabel categoryLabel = new JLabel("Kategori:");
-        categoryLabel.setBounds(40, 200, 100, 25);
-        add(categoryLabel);
-
-        JTextField categoryField = new JTextField();
-        categoryField.setBounds(150, 200, 180, 25);
-        add(categoryField);
+        formPanel.add(new JLabel("Kategori:"));
+        formPanel.add(categoryField);
 
         JButton addButton = new JButton("Ürün Ekle");
-        addButton.setBounds(40, 250, 120, 30);
-        add(addButton);
-
         JButton deleteButton = new JButton("Ürün Sil");
-        deleteButton.setBounds(170, 250, 120, 30);
-        add(deleteButton);
+        JButton updateButton = new JButton("Ürün Güncelle");
+        JButton listButton = new JButton("Listeyi Yenile");
 
-        JButton listButton = new JButton("Ürünleri Gör");
-        listButton.setBounds(300, 250, 120, 30);
-        add(listButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(listButton);
 
-        addButton.addActionListener(e -> {
+        add(listPanel, BorderLayout.WEST);
+        add(formPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        productList.addListSelectionListener(e -> fillFields());
+
+        addButton.addActionListener(e -> addProduct());
+        deleteButton.addActionListener(e -> deleteProduct());
+        updateButton.addActionListener(e -> updateProduct());
+        listButton.addActionListener(e -> refreshProductList());
+
+        setVisible(true);
+    }
+
+    private void refreshProductList() {
+        DefaultListModel<Product> model = new DefaultListModel<>();
+
+        for (Product p : productManager.getAllProducts()) {
+            model.addElement(p);
+        }
+
+        productList.setModel(model);
+    }
+
+    private void fillFields() {
+        Product p = productList.getSelectedValue();
+
+        if (p != null) {
+            idField.setText(String.valueOf(p.getProductId()));
+            nameField.setText(p.getProductName());
+            priceField.setText(String.valueOf(p.getPrice()));
+            stockField.setText(String.valueOf(p.getStockQuantity()));
+            categoryField.setText(p.getCategory());
+        }
+    }
+
+    private void addProduct() {
+        try {
             int id = Integer.parseInt(idField.getText());
             String name = nameField.getText();
             double price = Double.parseDouble(priceField.getText());
@@ -76,20 +110,47 @@ public class AdminFrame extends JFrame {
             Product product = new Product(id, name, price, stock, category);
             productManager.addProduct(product);
 
-            JOptionPane.showMessageDialog(this, "Ürün eklendi!");
-        });
+            refreshProductList();
+            JOptionPane.showMessageDialog(this, "Ürün eklendi.");
 
-        deleteButton.addActionListener(e -> {
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lütfen geçerli bilgiler giriniz.");
+        }
+    }
+
+    private void deleteProduct() {
+        try {
             int id = Integer.parseInt(idField.getText());
             productManager.removeProduct(id);
 
-            JOptionPane.showMessageDialog(this, "Ürün silme işlemi yapıldı!");
-        });
+            refreshProductList();
+            JOptionPane.showMessageDialog(this, "Ürün silindi.");
 
-        listButton.addActionListener(e -> {
-            new ProductFrame(productManager);
-        });
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Silmek için geçerli ürün ID giriniz.");
+        }
+    }
 
-        setVisible(true);
+    private void updateProduct() {
+        Product selected = productList.getSelectedValue();
+
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Lütfen güncellenecek ürünü seçiniz.");
+            return;
+        }
+
+        try {
+            selected.setProductId(Integer.parseInt(idField.getText()));
+            selected.setProductName(nameField.getText());
+            selected.setPrice(Double.parseDouble(priceField.getText()));
+            selected.setStockQuantity(Integer.parseInt(stockField.getText()));
+            selected.setCategory(categoryField.getText());
+
+            refreshProductList();
+            JOptionPane.showMessageDialog(this, "Ürün güncellendi.");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lütfen geçerli bilgiler giriniz.");
+        }
     }
 }

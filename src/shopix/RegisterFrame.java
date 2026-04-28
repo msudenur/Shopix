@@ -1,74 +1,55 @@
 package shopix;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class RegisterFrame extends JFrame {
-
     private UserManager userManager;
 
     public RegisterFrame(UserManager userManager) {
-
         this.userManager = userManager;
 
-        setTitle("Kayıt Ol");
+        setTitle("Shopix - Kayıt Ol");
         setSize(350, 300);
-        setLayout(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JLabel nameLabel = new JLabel("İsim:");
-        nameLabel.setBounds(30, 20, 100, 25);
-        add(nameLabel);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(6, 2, 10, 10));
 
         JTextField nameField = new JTextField();
-        nameField.setBounds(140, 20, 150, 25);
-        add(nameField);
-
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setBounds(30, 60, 100, 25);
-        add(emailLabel);
-
         JTextField emailField = new JTextField();
-        emailField.setBounds(140, 60, 150, 25);
-        add(emailField);
-
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(30, 100, 100, 25);
-        add(usernameLabel);
-
         JTextField usernameField = new JTextField();
-        usernameField.setBounds(140, 100, 150, 25);
-        add(usernameField);
-
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(30, 140, 100, 25);
-        add(passwordLabel);
-
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(140, 140, 150, 25);
-        add(passwordField);
 
         JButton registerButton = new JButton("Kayıt Ol");
-        registerButton.setBounds(110, 190, 120, 30);
+
+        add(new JLabel("İsim:"));
+        add(nameField);
+        add(new JLabel("E-mail:"));
+        add(emailField);
+        add(new JLabel("Kullanıcı Adı:"));
+        add(usernameField);
+        add(new JLabel("Şifre:"));
+        add(passwordField);
+        add(new JLabel(""));
         add(registerButton);
 
         registerButton.addActionListener(e -> {
+            int id = (int) (Math.random() * 10000);
 
-            String name = nameField.getText();
-            String email = emailField.getText();
-            String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
+            Customer customer = new Customer(
+                    id,
+                    nameField.getText(),
+                    emailField.getText(),
+                    usernameField.getText(),
+                    new String(passwordField.getPassword())
+            );
 
-            int id = (int) (Math.random() * 1000); // basit id üretme
-
-            Customer newUser = new Customer(id, name, email, username, password);
-
-            boolean success = userManager.register(newUser);
+            boolean success = userManager.register(customer);
 
             if (success) {
                 JOptionPane.showMessageDialog(this, "Kayıt başarılı!");
-                dispose(); // pencereyi kapat
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Kullanıcı adı zaten var!");
+                JOptionPane.showMessageDialog(this, "Bu kullanıcı adı zaten var!");
             }
         });
 
