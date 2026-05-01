@@ -1,0 +1,47 @@
+package shopix;
+import javax.swing.*;
+import java.awt.*;
+
+public class MainScreen extends JFrame{
+	private Cart cart = new Cart();
+    private ProductManager pm = ProductManager.getInstance();
+
+    public MainScreen(User user) {
+        setTitle("Shopix - Ana Sayfa");
+        setSize(400,300);
+        setLayout(new BorderLayout());
+
+        DefaultListModel<Product> model = new DefaultListModel<>();
+        for (Product p : pm.getAllProducts()) {
+            model.addElement(p);
+        }
+
+        JList<Product> list = new JList<>(model);
+
+        JButton addToCart = new JButton("Sepete Ekle");
+        JButton goCart = new JButton("Sepet");
+
+        add(new JScrollPane(list), BorderLayout.CENTER);
+
+        JPanel panel = new JPanel();
+        panel.add(addToCart);
+        panel.add(goCart);
+
+        add(panel, BorderLayout.SOUTH);
+
+        addToCart.addActionListener(e -> {
+            Product p = list.getSelectedValue();
+            if (p != null) {
+                cart.addProduct(p,1);
+                JOptionPane.showMessageDialog(this,"Sepete eklendi!");
+            }
+        });
+
+        goCart.addActionListener(e -> {
+            new CartFrame(cart);
+        });
+
+        setVisible(true);
+    }
+
+}

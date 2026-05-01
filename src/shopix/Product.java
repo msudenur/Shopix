@@ -26,16 +26,18 @@ public class Product implements Serializable {
 	public double getPrice() {
 		return price;}
 	public void setPrice(double price) {
-		if(price<=0) {
-			System.out.println("Ürün ücreti negatif veya 0 olamaz!");
-		}
+		if(price <= 0) {
+	        System.out.println("Hata: Ürün ücreti negatif veya 0 olamaz! İşlem iptal edildi.");
+	        return; // Hatalı değerin atanmasını engelledik
+	    }
 		this.price=price;}
 	public int getStockQuantity() {
 		return stockQuantity;}
 	public void setStockQuantity(int stockQuantity) {
-		if(stockQuantity <0) {
-			System.out.println("Stok adedi negatif olamaz!");
-		}
+		if(stockQuantity < 0) {
+	        System.out.println("Hata: Stok adedi negatif olamaz! İşlem iptal edildi.");
+	        return; // Hatalı değerin atanmasını engelledik
+	    }
 		this.stockQuantity=stockQuantity;}
 	public String getCategory() {
 		return category;}
@@ -46,5 +48,3 @@ public class Product implements Serializable {
 		return "Ürün [ID=" + productId + ", İsim=" + productName + ",Fiyat=" + price + ",Stok=" + stockQuantity + ", Kategori=" + category + "]";
 }
 	}
-
-

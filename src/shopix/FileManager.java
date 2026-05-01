@@ -1,50 +1,44 @@
 package shopix;
-
-import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileManager {
+	private static final String USER_FILE = "users.dat";
 
+    // KULLANICILARI KAYDET
     public static void saveUsers(ArrayList<User> users) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.dat"));
-            oos.writeObject(users);
-            oos.close();
-        } catch (IOException e) {
-            System.out.println("Kullanıcılar kaydedilemedi.");
-        }
+        DosyaYonetimi db = DosyaYonetimi.getInstance();
+        db.kaydet(users, USER_FILE);
     }
 
+    // KULLANICILARI YÜKLE
     public static ArrayList<User> loadUsers() {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.dat"));
-            ArrayList<User> users = (ArrayList<User>) ois.readObject();
-            ois.close();
-            return users;
-        } catch (Exception e) {
+        DosyaYonetimi db = DosyaYonetimi.getInstance();
+        Object data = db.veriCek(USER_FILE);
+
+        if (data == null) {
             return new ArrayList<>();
         }
-    }
 
-    public static void saveProducts(List<Product> products) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("products.dat"));
-            oos.writeObject(products);
-            oos.close();
-        } catch (IOException e) {
-            System.out.println("Ürünler kaydedilemedi.");
-        }
+        return (ArrayList<User>) data;
     }
+    private static final String PRODUCT_FILE = "products.dat";
 
-    public static List<Product> loadProducts() {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("products.dat"));
-            List<Product> products = (List<Product>) ois.readObject();
-            ois.close();
-            return products;
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
+ // ÜRÜNLERİ KAYDET
+ public static void saveProducts(ArrayList<Product> products) {
+     DosyaYonetimi db = DosyaYonetimi.getInstance();
+     db.kaydet(products, PRODUCT_FILE);
+ }
+
+ // ÜRÜNLERİ YÜKLE
+ public static ArrayList<Product> loadProducts() {
+     DosyaYonetimi db = DosyaYonetimi.getInstance();
+     Object data = db.veriCek(PRODUCT_FILE);
+
+     if (data == null) {
+         return new ArrayList<>();
+     }
+
+     return (ArrayList<Product>) data;
+ }
+
 }

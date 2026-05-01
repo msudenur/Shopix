@@ -3,12 +3,12 @@ package shopix;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-public class ProductManager implements Serializable, IShopOperations {
+public class ProductManager implements Serializable{
 		private static ProductManager instance;
 	    private List<Product> productList;
 	
 	private ProductManager() {
-        this.productList = new ArrayList<>();}
+		this.productList = FileManager.loadProducts();}
 	public static ProductManager getInstance() {
         if (instance == null) {
             instance = new ProductManager();
@@ -23,7 +23,8 @@ public class ProductManager implements Serializable, IShopOperations {
 	            System.out.println("Hata: " + newProduct.getProductId() + " ID'li ürün zaten sistemde kayıtlı!");
 	            return; 
 	        }}
-        productList.add(newProduct);}
+        productList.add(newProduct);
+        FileManager.saveProducts((ArrayList<Product>) productList);}
 	public List<Product> getAllProducts() {
 	    return productList;
 	}
@@ -35,6 +36,7 @@ public class ProductManager implements Serializable, IShopOperations {
 	            break;}}
 		if (toRemove != null) {
 	        productList.remove(toRemove);
+	        FileManager.saveProducts((ArrayList<Product>) productList);
 	        System.out.println(productId + " ID'li ürün sistemden silindi.");}
 		else {
 	        System.out.println("Hata: " + productId + " ID'li bir ürün bulunamadı.");}}
@@ -44,6 +46,7 @@ public class ProductManager implements Serializable, IShopOperations {
 		for(int i=0; i<productList.size(); i++) {
 			if(productList.get(i).getProductId()== updatedProduct.getProductId()) {
 				productList.set(i, updatedProduct);
+				FileManager.saveProducts((ArrayList<Product>) productList);
 				System.out.println(updatedProduct.getProductId() + " ID'li ürün güncellendi.");
 	            return;}}
 		System.out.println("Güncelleme hatası: Ürün bulunamadı.");}
@@ -58,6 +61,7 @@ public class ProductManager implements Serializable, IShopOperations {
 				int currentStock=p.getStockQuantity();
 				if (currentStock >= quantity) {
 	                p.setStockQuantity(currentStock - quantity);
+	                FileManager.saveProducts((ArrayList<Product>) productList);
 	                System.out.println("Stok güncellendi. Yeni Stok: " + p.getStockQuantity());
 	                return;} 
 				else {
@@ -65,6 +69,3 @@ public class ProductManager implements Serializable, IShopOperations {
 	            return;}}
 			System.out.println("Ürün bulunamadı!");}
 	}
-	
-
-

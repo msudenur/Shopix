@@ -13,6 +13,10 @@ public class CartItem implements Serializable{
         this.quantity = quantity;
     }
     
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
     //Ürünün toplam maliyetini hesaplayan metot
     public double getSubTotal() {
         return product.getPrice() * quantity;

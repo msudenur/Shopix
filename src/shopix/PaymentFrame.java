@@ -73,21 +73,38 @@ public class PaymentFrame extends JFrame {
                 dispose();
 
             } else if (cardOption.isSelected()) {
+                
+                // 1. Önce TextField'lardan verileri al ve boşlukları temizle (trim)
+                String cName = cardNameField.getText().trim();
+                String cNum = cardNumberField.getText().trim();
+                String cCvv = cvvField.getText().trim();
 
-                if (cardNameField.getText().isEmpty()
-                        || cardNumberField.getText().isEmpty()
-                        || cvvField.getText().isEmpty()) {
-
-                    JOptionPane.showMessageDialog(this,
-                            "Lütfen kart bilgilerini eksiksiz giriniz!");
-
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Kredi kartı ile ödeme başarılı!\nToplam Tutar: " + totalPrice + " TL");
-                    dispose();
+                // 2. Önce basit bir boşluk kontrolü yap
+                if (cName.isEmpty() || cNum.isEmpty() || cCvv.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Lütfen tüm kart bilgilerini doldurunuz!");
+                    return; // Hata varsa aşağıya (nesne oluşturmaya) geçme
                 }
 
-            } else {
+                // 3. Kart numarası uzunluğunu kontrol et (Exception almamak için)
+                if (cNum.length() != 16) {
+                    JOptionPane.showMessageDialog(this, "Hata: Kart numarası tam 16 haneli olmalıdır!");
+                    return; // İşlemi burada kes
+                }
+
+                // 4. Eğer her şey tamamsa CreditCard nesnesini oluştur
+                try {
+                    // Burada muhtemelen CreditCard nesnesi oluşturup başka bir yere gönderiyorsun
+                    // Örn: new CreditCard(cName, cNum, cCvv);
+                    
+                    JOptionPane.showMessageDialog(this, "Kredi kartı ile ödeme başarılı!\nTutar: " + totalPrice + " TL");
+                    dispose();
+                } catch (Exception ex) {
+                    // Eğer CreditCard sınıfı hala bir hata fırlatırsa burada yakala
+                    JOptionPane.showMessageDialog(this, "Ödeme hatası: " + ex.getMessage());
+                }
+            }
+
+             else {
                 JOptionPane.showMessageDialog(this,
                         "Lütfen bir ödeme yöntemi seçiniz!");
             }

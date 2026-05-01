@@ -16,6 +16,11 @@ public class Order implements Serializable {
 	private double totalPrice;
 	private String status;  // Siparişin durumu
 	
+	// Program başladığında çağrılacak metod
+    public static void setCounter(int startValue) {
+        counter = startValue;
+    }
+	
 	//Yapıcı metot: Yeni bir sipariş oluşturulduğunda otomatik bir ID atar.
 	public Order() {
 		this.orderId = counter++;
@@ -24,6 +29,11 @@ public class Order implements Serializable {
 	
 	//Sepetten sipariş oluşturma.
 	 public void createFromCart (Cart cart, ProductManager manager) {
+		// Sepet boşsa sipariş oluşturulmamalı
+		    if (cart.getItems().isEmpty()) {
+		        System.out.println("Hata: Sepet boş!");
+		        return;
+		    }
 		 //Ürünlerin bir kopyasını oluşturma.
 		  this.items = new ArrayList<>(cart.getItems());
 	      this.totalPrice = cart.getTotalPrice();
