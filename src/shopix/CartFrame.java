@@ -34,7 +34,6 @@ public class CartFrame extends JFrame {
                     options,
                     options[0]);
 
-         // ... önceki kodlar ...
             try {
                 if (choice == 0) {
                     // 1. Kullanıcıdan bilgileri JOptionPane ile alalım (veya PaymentFrame'e yönlendir)

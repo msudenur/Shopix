@@ -9,42 +9,66 @@ public class Product implements Serializable {
 	private int stockQuantity;
 	private String category;
 
+	// 1. Orijinal Constructor (5 Parametreli)
 	public Product(int productId, String productName, double price, int stockQuantity, String category) {
 		this.productId = productId;
 	    this.productName = productName;
 	    this.price = price;
 	    this.stockQuantity = stockQuantity;
-	    this.category = category;}
+	    this.category = category;
+	}
+
+	// 2. YENİ EKLEDİĞİMİZ CONSTRUCTOR (4 Parametreli)
+	// resim_10.png'deki hatayı bu kısım düzeltecek
+	public Product(int productId, String productName, double price, int stockQuantity) {
+		this.productId = productId;
+	    this.productName = productName;
+	    this.price = price;
+	    this.stockQuantity = stockQuantity;
+	    this.category = "Genel"; // Veri tabanında kategori yoksa varsayılan atar
+	}
+
 	public int getProductId() {
-		return productId ;}
+		return productId ;
+	}
 	public void setProductId(int productId) {
-		this.productId=productId;}
+		this.productId=productId;
+	}
 	public String getProductName() {
-		return productName;}
+		return productName;
+	}
 	public void setProductName(String productName) {
-		this.productName=productName;}
+		this.productName=productName;
+	}
 	public double getPrice() {
-		return price;}
+		return price;
+	}
 	public void setPrice(double price) {
 		if(price <= 0) {
 	        System.out.println("Hata: Ürün ücreti negatif veya 0 olamaz! İşlem iptal edildi.");
-	        return; // Hatalı değerin atanmasını engelledik
+	        return;
 	    }
-		this.price=price;}
+		this.price=price;
+	}
 	public int getStockQuantity() {
-		return stockQuantity;}
+		return stockQuantity;
+	}
 	public void setStockQuantity(int stockQuantity) {
 		if(stockQuantity < 0) {
 	        System.out.println("Hata: Stok adedi negatif olamaz! İşlem iptal edildi.");
-	        return; // Hatalı değerin atanmasını engelledik
+	        return;
 	    }
-		this.stockQuantity=stockQuantity;}
+		this.stockQuantity=stockQuantity;
+	}
 	public String getCategory() {
-		return category;}
+		return category;
+	}
 	public void setCategory(String category) {
-		this.category=category;}
+		this.category=category;
+	}
+	
 	@Override
 	public String toString() {
-		return "Ürün [ID=" + productId + ", İsim=" + productName + ",Fiyat=" + price + ",Stok=" + stockQuantity + ", Kategori=" + category + "]";
-}
+		return "Ürün [ID=" + productId + ", İsim=" + productName + ", Fiyat=" + price + ", Stok=" + stockQuantity + ", Kategori=" + category + "]";
 	}
+}
