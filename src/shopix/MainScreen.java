@@ -1,6 +1,7 @@
 package shopix;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class MainScreen extends JFrame{
 	private Cart cart = new Cart();
@@ -20,7 +21,7 @@ public class MainScreen extends JFrame{
 
         JButton addToCart = new JButton("Sepete Ekle");
         JButton goCart = new JButton("Sepet");
-
+        
         add(new JScrollPane(list), BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
