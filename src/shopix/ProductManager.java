@@ -49,7 +49,7 @@ public class ProductManager implements Serializable {
         return list;
     }
 
-    // --- YENİ EKLENEN METOT: SİL ---
+    // METOT: SİL ---
     public void removeProduct(int productId) {
         String sql = "DELETE FROM products WHERE productId = ?";
         
@@ -65,7 +65,7 @@ public class ProductManager implements Serializable {
         }
     }
 
-    // --- YENİ EKLENEN METOT: GÜNCELLE ---
+    // --- METOT: GÜNCELLE ---
     public void updateProduct(Product product) {
         String sql = "UPDATE products SET productName = ?, price = ?, stockQuantity = ? WHERE productId = ?";
 

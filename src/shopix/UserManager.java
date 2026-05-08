@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public class UserManager {
 
-    // Eskiden sadece ArrayList vardı, şimdi veri tabanı yöneticimizi ekliyoruz
     private IDataBase dbManager;
 
     public UserManager() {
-        // Nesne oluşturulduğunda veri tabanı yöneticisini başlatıyoruz
-        // Bu işlem SqliteDatabaseManager içindeki tablo oluşturma mantığını da tetikler
+        // Nesne oluşturulduğunda veri tabanı yöneticisini başlatılır
+
         this.dbManager = new SqliteDatabaseManager();
     }
 
@@ -20,8 +19,7 @@ public class UserManager {
             return false;
         }
 
-        // 2. Kullanıcıyı veri tabanına kaydet
-        // Eskiden users.add(user) ve FileManager.saveUsers vardı
+ 
         dbManager.kaydet(user, "users");
         
         System.out.println("Kayıt veri tabanına başarıyla eklendi!");
@@ -29,9 +27,7 @@ public class UserManager {
     }
 
     public User login(String username, String password) {
-        // Giriş işlemi için veri tabanına sorgu atıyoruz
-        // Bu kısmı SqliteDatabaseManager içine bir metod olarak eklemek daha profesyonel olur 
-        // ancak şimdilik UserManager içinde doğrudan doğrulama yapabilirsin.
+ 
         
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         
@@ -59,7 +55,7 @@ public class UserManager {
     }
 
     public boolean usernameExists(String username) {
-        // Belirli bir kullanıcının var olup olmadığını SQL ile kontrol ediyoruz
+        // Belirli bir kullanıcının var olup olmadığını SQL ile kontrol edilir
         String sql = "SELECT count(*) FROM users WHERE username = ?";
         
         try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:shopix.db");
@@ -76,11 +72,8 @@ public class UserManager {
         }
         return false;
     }
-
-    // Not: Artık tüm listeyi RAM'de (ArrayList) tutmamıza gerek kalmadı.
-    // İhtiyaç duyulduğunda SELECT * FROM users sorgusuyla çekilebilir.
     public ArrayList<User> getUsers() {
-        // Eğer hala bir ArrayList lazımsa, veri tabanındaki tüm kullanıcıları çekip dönebiliriz
+     
         ArrayList<User> userList = new ArrayList<>();
         String sql = "SELECT * FROM users";
         try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:shopix.db");
@@ -88,7 +81,7 @@ public class UserManager {
              java.sql.ResultSet rs = stmt.executeQuery(sql)) {
             
         	while (rs.next()) {
-        	    // 5 parametreli constructor'a uygun şekilde tüm verileri çekiyoruz
+        	   
         	    userList.add(new User(
         	        rs.getInt("id"),
         	        rs.getString("name"),
