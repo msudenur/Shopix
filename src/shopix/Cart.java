@@ -25,7 +25,7 @@ public class Cart implements Serializable{
     //Sepetten ürünü kaldırır.
     public void removeProduct(Product product) {
     	//lamda operatörü ile eşleşen ürünü silme.
-        items.removeIf(i -> i.getProduct() == product);
+        items.removeIf(i -> i.getProduct().getProductId() == product.getProductId());
     }
     
     //Sepetteki yeni listeyi döndürür.

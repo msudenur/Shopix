@@ -13,7 +13,7 @@ public class PaymentFactory {
                 return new CashPayment();       // Kapıda ödeme nesnesi üret
             default:
                 // Tanınmayan bir tip girilirse programı uyarır
-                throw new Exception("Invalid payment type: " + type);
+                throw new Exception("Geçersiz ödeme tipi: " + type);
         }
     }
 }

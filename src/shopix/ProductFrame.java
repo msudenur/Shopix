@@ -39,17 +39,25 @@ public class ProductFrame extends JFrame {
 
             Product selectedProduct = productList.getSelectedValue();
 
-            if (selectedProduct != null) {
-                cart.addProduct(selectedProduct, 1);
-                JOptionPane.showMessageDialog(this, "Ürün sepete eklendi!");
-            } else {
+            if (selectedProduct == null) {
                 JOptionPane.showMessageDialog(this, "Lütfen bir ürün seçiniz!");
+                return;
             }
+
+            if (selectedProduct.getStockQuantity() <= 0) {
+                JOptionPane.showMessageDialog(this, "Bu ürünün stoğu yok!");
+                return;
+            }
+
+            cart.addProduct(selectedProduct, 1);
+            JOptionPane.showMessageDialog(this, "Ürün sepete eklendi!");
         });
 
         cartButton.addActionListener(e -> {
             new CartFrame(cart);
         });
+        
+        setLocationRelativeTo(null);
 
         setVisible(true);
     }
