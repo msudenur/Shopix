@@ -58,7 +58,7 @@ public class ProductFrame extends JFrame {
         });
         
         setLocationRelativeTo(null);
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 }

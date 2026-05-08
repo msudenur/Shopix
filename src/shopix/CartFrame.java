@@ -40,8 +40,9 @@ public class CartFrame extends JFrame {
             dispose();
         });
 
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
+	
 
 }

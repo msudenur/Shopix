@@ -10,7 +10,7 @@ public class AdminFrame extends JFrame {
     private DefaultTableModel tableModel;
 
     public AdminFrame() {
-        setTitle("Admin Panel");
+        setTitle("Shopix - Admin Paneli");
         setSize(600, 500); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout()); // Daha düzenli bir yerleşim için BorderLayout
@@ -22,16 +22,16 @@ public class AdminFrame extends JFrame {
         JTextField priceField = new JTextField();
         JTextField stockField = new JTextField();
 
-        inputPanel.add(new JLabel("ID:"));
+        inputPanel.add(new JLabel("  Ürün ID:"));
         inputPanel.add(idField);
-        inputPanel.add(new JLabel("İsim:"));
+        inputPanel.add(new JLabel("  Ürün İsmi:"));
         inputPanel.add(nameField);
-        inputPanel.add(new JLabel("Fiyat:"));
+        inputPanel.add(new JLabel("  Fiyat:"));
         inputPanel.add(priceField);
-        inputPanel.add(new JLabel("Stok:"));
+        inputPanel.add(new JLabel("  Stok Adedi:"));
         inputPanel.add(stockField);
 
-        // --- Orta Panel: Tablo ---
+        // --- Orta Panel: Tablo (Listeleme için) ---
         String[] columnNames = {"ID", "Ürün İsmi", "Fiyat", "Stok"};
         tableModel = new DefaultTableModel(columnNames, 0);
         productTable = new JTable(tableModel);
@@ -54,9 +54,11 @@ public class AdminFrame extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // --- BUTON AKSİYONLARI ---
+        // =========================
+        // BUTON AKSİYONLARI
+        // =========================
 
-        // EKLE
+        // --- EKLE ---
         addButton.addActionListener(e -> {
             try {
                 Product p = new Product(
@@ -73,17 +75,18 @@ public class AdminFrame extends JFrame {
             }
         });
 
-        // SİL
+        // --- SİL ---
         deleteButton.addActionListener(e -> {
             try {
-                pm.removeProduct(Integer.parseInt(idField.getText()));
-                JOptionPane.showMessageDialog(this, "Ürün silindi!");
+                int productId = Integer.parseInt(idField.getText());
+                pm.removeProduct(productId);
+                JOptionPane.showMessageDialog(this, "ID: " + productId + " olan ürün silindi!");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Hata: Geçerli bir ID girin!");
             }
         });
 
-        // GÜNCELLE
+        // --- GÜNCELLE ---
         updateButton.addActionListener(e -> {
             try {
                 Product p = new Product(
@@ -94,13 +97,13 @@ public class AdminFrame extends JFrame {
                     "Genel"
                 );
                 pm.updateProduct(p);
-                JOptionPane.showMessageDialog(this, "Ürün güncellendi!");
+                JOptionPane.showMessageDialog(this, "Ürün başarıyla güncellendi!");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Güncelleme hatası!");
+                JOptionPane.showMessageDialog(this, "Güncelleme hatası: " + ex.getMessage());
             }
         });
 
-        // LİSTELE (Tabloyu Güncelle)
+        // --- LİSTELE (Tabloyu Güncelle) ---
         listButton.addActionListener(e -> {
             tableModel.setRowCount(0); // Tabloyu temizle
             for (Product p : pm.getAllProducts()) {
@@ -111,6 +114,17 @@ public class AdminFrame extends JFrame {
                     p.getStockQuantity()
                 };
                 tableModel.addRow(row);
+            }
+        });
+
+        // Tablodan bir satır seçildiğinde kutucukları otomatik doldur (Kullanım kolaylığı için)
+        productTable.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && productTable.getSelectedRow() != -1) {
+                int row = productTable.getSelectedRow();
+                idField.setText(tableModel.getValueAt(row, 0).toString());
+                nameField.setText(tableModel.getValueAt(row, 1).toString());
+                priceField.setText(tableModel.getValueAt(row, 2).toString());
+                stockField.setText(tableModel.getValueAt(row, 3).toString());
             }
         });
 

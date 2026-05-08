@@ -1,6 +1,7 @@
 package shopix;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class MainScreen extends JFrame{
 	private Cart cart = new Cart();
@@ -20,7 +21,7 @@ public class MainScreen extends JFrame{
 
         JButton addToCart = new JButton("Sepete Ekle");
         JButton goCart = new JButton("Sepet");
-
+        
         add(new JScrollPane(list), BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
@@ -30,16 +31,25 @@ public class MainScreen extends JFrame{
         add(panel, BorderLayout.SOUTH);
 
         addToCart.addActionListener(e -> {
+
             Product p = list.getSelectedValue();
-            if (p != null) {
-                cart.addProduct(p,1);
-                JOptionPane.showMessageDialog(this,"Sepete eklendi!");
+
+            if (p == null) return;
+
+            if (p.getStockQuantity() <= 0) {
+                JOptionPane.showMessageDialog(this,
+                    "Bu ürün stokta yok!");
+                return;
             }
+
+            cart.addProduct(p, 1);
+            JOptionPane.showMessageDialog(this, "Sepete eklendi!");
         });
 
         goCart.addActionListener(e -> {
             new CartFrame(cart);
         });
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setVisible(true);
     }

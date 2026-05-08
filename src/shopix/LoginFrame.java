@@ -1,4 +1,5 @@
 package shopix;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,12 +8,13 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         setTitle("Shopix - Giriş ve Kayıt");
-        setSize(350, 300); // Biraz daha genişlettik
+        setSize(350, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        // 5 satır, 2 sütun düzeni
-        setLayout(new GridLayout(5, 2, 10, 10)); 
+        setLayout(new GridLayout(5, 2, 10, 10));
+        setLocationRelativeTo(null);
+        setResizable(false);
 
-        // Giriş Alanları
+        // --- INPUT ALANLARI ---
         JTextField nameField = new JTextField();
         JTextField emailField = new JTextField();
         JTextField usernameField = new JTextField();
@@ -21,7 +23,7 @@ public class LoginFrame extends JFrame {
         JButton loginBtn = new JButton("Giriş Yap");
         JButton registerBtn = new JButton("Kayıt Ol");
 
-        // Arayüze Ekleme Sırası
+        // --- UI EKLEME ---
         add(new JLabel("  Ad Soyad:"));
         add(nameField);
         add(new JLabel("  E-posta:"));
@@ -33,59 +35,78 @@ public class LoginFrame extends JFrame {
         add(loginBtn);
         add(registerBtn);
 
-        // --- GİRİŞ BUTONU ---
+        // =========================
+        // GİRİŞ YAP (LOGIN)
+        // =========================
         loginBtn.addActionListener(e -> {
-            String user = usernameField.getText();
-            String pass = new String(passwordField.getPassword());
-            
-         // --- GİRİŞ BUTONU İÇİ ---
-            User u = userManager.login(user, pass);
-            if (u != null) {
-               
-                if ("ADMIN".equalsIgnoreCase(u.getRole())) { 
+            try {
+                String user = usernameField.getText();
+                String pass = new String(passwordField.getPassword()).trim();
+
+                if (user.isEmpty() || pass.isEmpty()) {
+                    throw new Exception("Kullanıcı adı ve şifre boş olamaz!");
+                }
+
+                User u = userManager.login(user, pass);
+
+                if (u == null) {
+                    throw new Exception("Hatalı kullanıcı adı veya şifre!");
+                }
+
+                // ROL KONTROLÜ: Veritabanından gelen role göre ekran açılır
+                if ("ADMIN".equalsIgnoreCase(u.getRole())) {
                     new AdminFrame();
                 } else {
                     new MainScreen(u);
                 }
+
                 dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Hatalı kullanıcı adı veya şifre!");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Giriş Hatası", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        // --- KAYIT BUTONU ---
+        // =========================
+        // KAYIT OL (REGISTER)
+        // =========================
         registerBtn.addActionListener(e -> {
-            String name = nameField.getText();
-            String email = emailField.getText();
-            String user = usernameField.getText();
-            String pass = new String(passwordField.getPassword());
+            try {
+                String name = nameField.getText();
+                String email = emailField.getText();
+                String user = usernameField.getText();
+                String pass = new String(passwordField.getPassword()).trim();
 
-            if (user.isEmpty() || pass.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Kullanıcı adı ve şifre boş bırakılamaz!");
-                return;
+                if (user.isEmpty() || pass.isEmpty()) {
+                    throw new Exception("Kullanıcı adı ve şifre zorunludur!");
+                }
+
+                // Varsayılan değerler
+                if (email.isEmpty()) email = "eposta@yok.com";
+                if (name.isEmpty()) name = "İsimsiz Kullanıcı";
+
+                // Yeni kullanıcıyı "CUSTOMER" rolüyle oluşturuyoruz
+                User newUser = new User(0, name, email, user, pass, "CUSTOMER");
+
+                boolean result = userManager.register(newUser);
+
+                if (!result) {
+                    throw new Exception("Kayıt başarısız! Bu kullanıcı adı zaten alınmış.");
+                }
+
+                JOptionPane.showMessageDialog(this, "Kayıt başarıyla oluşturuldu!");
+
+                // Alanları temizle
+                nameField.setText("");
+                emailField.setText("");
+                usernameField.setText("");
+                passwordField.setText("");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Kayıt Hatası", JOptionPane.ERROR_MESSAGE);
             }
-
-            // ID kısmına 0 veriyoruz, SQLite bunu otomatik artıracak
-            User newUser = new User(
-                0, 
-                name.isEmpty() ? "İsimsiz Kullanıcı" : name,
-                email.isEmpty() ? "eposta@yok.com" : email,
-                user,
-                pass,
-                "CUSTOMER"
-            );
-            
-            userManager.register(newUser);
-            JOptionPane.showMessageDialog(this, "Kaydınız başarıyla oluşturuldu!");
-            
-            // Kayıttan sonra alanları temizle
-            nameField.setText("");
-            emailField.setText("");
-            usernameField.setText("");
-            passwordField.setText("");
         });
 
-        setLocationRelativeTo(null);
         setVisible(true);
     }
 }
