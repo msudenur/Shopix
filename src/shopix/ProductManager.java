@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductManager implements Serializable {
+public class ProductManager implements IShopOperations, Serializable {
     private static ProductManager instance;
     private IDataBase dbManager; 
     private static final String DB_URL = "jdbc:sqlite:shopix.db";

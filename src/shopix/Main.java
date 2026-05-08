@@ -25,6 +25,20 @@ public class Main {
                  um.register(admin);
                  System.out.println("Varsayılan admin oluşturuldu -> admin / 1234");
              }
+             //ORDER MANAGER
+             List<Order> siparisler = (List<Order>) DosyaYonetimi.getInstance().veriCek("siparisler.dat");
+
+        	 if (siparisler != null && !siparisler.isEmpty()) {
+        	     // Liste içindeki en büyük ID'yi bul
+        	     int maxId = 0;
+        	     for (Order o : siparisler) {
+        	         if (o.getOrderId() > maxId) {
+        	             maxId = o.getOrderId();
+        	         }
+        	     }
+        	     // Sayacı en büyük ID'nin bir fazlasından başlat
+        	     Order.setCounter(maxId + 1);
+        	 }
 
              // GUI başlat
              SwingUtilities.invokeLater(() -> {
@@ -40,18 +54,6 @@ public class Main {
              e.printStackTrace();
          }
     	 
-    	 List<Order> siparisler = (List<Order>) DosyaYonetimi.getInstance().veriCek("siparisler.dat");
-
-    	 if (siparisler != null && !siparisler.isEmpty()) {
-    	     // Liste içindeki en büyük ID'yi bul
-    	     int maxId = 0;
-    	     for (Order o : siparisler) {
-    	         if (o.getOrderId() > maxId) {
-    	             maxId = o.getOrderId();
-    	         }
-    	     }
-    	     // Sayacı en büyük ID'nin bir fazlasından başlat
-    	     Order.setCounter(maxId + 1);
-    	 }
+    	
     }
 }
