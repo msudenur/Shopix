@@ -69,7 +69,7 @@ public class AdminFrame extends JFrame{
                 System.out.println(p);
             }
         });
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 

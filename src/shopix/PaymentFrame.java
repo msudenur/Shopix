@@ -100,7 +100,7 @@ public class PaymentFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         });
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 }
