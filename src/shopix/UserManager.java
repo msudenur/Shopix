@@ -44,7 +44,8 @@ public class UserManager {
                     rs.getString("name"),     // Veri tabanından çekiliyor
                     rs.getString("email"),    // Veri tabanından çekiliyor
                     rs.getString("username"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    rs.getString("role")
                 );
             
             }
@@ -87,7 +88,8 @@ public class UserManager {
         	        rs.getString("name"),
         	        rs.getString("email"),
         	        rs.getString("username"),
-        	        rs.getString("password")
+        	        rs.getString("password"),
+        	        rs.getString("role")
         	    ));
         	}
         } catch (java.sql.SQLException e) {

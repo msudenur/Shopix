@@ -38,9 +38,11 @@ public class LoginFrame extends JFrame {
             String user = usernameField.getText();
             String pass = new String(passwordField.getPassword());
             
+         // --- GİRİŞ BUTONU İÇİ ---
             User u = userManager.login(user, pass);
             if (u != null) {
-                if (u instanceof Admin) {
+               
+                if ("ADMIN".equalsIgnoreCase(u.getRole())) { 
                     new AdminFrame();
                 } else {
                     new MainScreen(u);
@@ -69,7 +71,8 @@ public class LoginFrame extends JFrame {
                 name.isEmpty() ? "İsimsiz Kullanıcı" : name,
                 email.isEmpty() ? "eposta@yok.com" : email,
                 user,
-                pass
+                pass,
+                "CUSTOMER"
             );
             
             userManager.register(newUser);

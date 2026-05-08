@@ -20,12 +20,13 @@ public class SqliteDatabaseManager implements IDataBase {
     }
 
     private void tablolariHazirla() {
-        String userTable = "CREATE TABLE IF NOT EXISTS users ("
-                         + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                         + " name TEXT,"
-                         + " email TEXT,"
-                         + " username TEXT NOT NULL,"
-                         + " password TEXT NOT NULL);";
+    	String userTable = "CREATE TABLE IF NOT EXISTS users ("
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " name TEXT,"
+                + " email TEXT,"
+                + " username TEXT NOT NULL,"
+                + " password TEXT NOT NULL,"
+                + " role TEXT);"; 
         
         String productTable = "CREATE TABLE IF NOT EXISTS products ("
                             + " productId INTEGER PRIMARY KEY,"
@@ -46,13 +47,14 @@ public class SqliteDatabaseManager implements IDataBase {
     public void kaydet(Object veri, String tabloAdi) {
         if (veri instanceof User && tabloAdi.equalsIgnoreCase("users")) {
             User user = (User) veri;
-            String sql = "INSERT INTO users (name, email, username, password) VALUES(?, ?, ?, ?)";
+            String sql = "INSERT INTO users (name, email, username, password,role) VALUES(?, ?, ?, ?,?)";
             try (Connection conn = this.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, user.getName());
+            	pstmt.setString(1, user.getName());
                 pstmt.setString(2, user.getEmail());
                 pstmt.setString(3, user.getUsername());
                 pstmt.setString(4, user.getPassword());
+                pstmt.setString(5, user.getRole()); 
                 pstmt.executeUpdate();
                 System.out.println("Sistem: Kullanıcı başarıyla '" + tabloAdi + "' tablosuna kaydedildi.");
             } catch (SQLException e) {
