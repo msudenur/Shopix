@@ -9,7 +9,7 @@ public class Product implements Serializable {
 	private int stockQuantity;
 	private String category;
 
-	// 1. Orijinal Constructor (5 Parametreli)
+	
 	public Product(int productId, String productName, double price, int stockQuantity, String category) {
 		this.productId = productId;
 	    this.productName = productName;
@@ -18,8 +18,7 @@ public class Product implements Serializable {
 	    this.category = category;
 	}
 
-	// 2. YENİ EKLEDİĞİMİZ CONSTRUCTOR (4 Parametreli)
-	// resim_10.png'deki hatayı bu kısım düzeltecek
+	
 	public Product(int productId, String productName, double price, int stockQuantity) {
 		this.productId = productId;
 	    this.productName = productName;
