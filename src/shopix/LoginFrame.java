@@ -1,7 +1,12 @@
 package shopix;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
 
 public class LoginFrame extends JFrame {
     private UserManager userManager = new UserManager();

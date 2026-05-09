@@ -1,6 +1,12 @@
 package shopix;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
 public class MainScreen extends JFrame {
     private Cart cart = new Cart();

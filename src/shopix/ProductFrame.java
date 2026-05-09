@@ -1,6 +1,11 @@
 package shopix;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class ProductFrame extends JFrame {
 

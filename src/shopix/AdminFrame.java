@@ -1,8 +1,18 @@
 package shopix;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 public class AdminFrame extends JFrame {
     private ProductManager pm = ProductManager.getInstance();

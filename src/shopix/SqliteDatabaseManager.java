@@ -1,6 +1,10 @@
 package shopix;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SqliteDatabaseManager implements IDataBase {
     private static final String URL = "jdbc:sqlite:shopix.db";
