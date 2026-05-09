@@ -5,8 +5,12 @@ import javax.swing.*;
 public class ProductFrame extends JFrame {
 
     private Cart cart = new Cart();
+    private ProductManager productManager; 
+    private DefaultListModel<Product> model; 
+    private JList<Product> productList; 
 
     public ProductFrame(ProductManager productManager) {
+        this.productManager = productManager; 
 
         setTitle("Shopix Ürünler");
         setSize(500, 400);
@@ -17,15 +21,14 @@ public class ProductFrame extends JFrame {
         titleLabel.setBounds(200, 20, 150, 25);
         add(titleLabel);
 
-        DefaultListModel<Product> model = new DefaultListModel<>();
-
-        for (Product p : productManager.getAllProducts()) {
-            model.addElement(p);
-        }
-
-        JList<Product> productList = new JList<>(model);
+        // Model ve Liste Oluşturma
+        model = new DefaultListModel<>();
+        productList = new JList<>(model);
         productList.setBounds(50, 60, 380, 180);
         add(productList);
+
+        // Verileri ilk kez yükler
+        refreshTable();
 
         JButton addButton = new JButton("Sepete Ekle");
         addButton.setBounds(50, 270, 150, 30);
@@ -35,8 +38,8 @@ public class ProductFrame extends JFrame {
         cartButton.setBounds(250, 270, 150, 30);
         add(cartButton);
 
+        // SEPETE EKLEME AKSİYONU
         addButton.addActionListener(e -> {
-
             Product selectedProduct = productList.getSelectedValue();
 
             if (selectedProduct == null) {
@@ -53,12 +56,26 @@ public class ProductFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "Ürün sepete eklendi!");
         });
 
+        // SEPETİ GÖRÜNTÜLEME AKSİYONU
         cartButton.addActionListener(e -> {
-            new CartFrame(cart);
+         
+            new CartFrame(cart, this); 
         });
         
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+    }
+
+    /**
+     * Veritabanından güncel ürün bilgilerini çekerek listeyi yeniler.
+     */
+    public void refreshTable() {
+        if (model != null && productManager != null) {
+            model.clear(); 
+            for (Product p : productManager.getAllProducts()) {
+                model.addElement(p); 
+            }
+        }
     }
 }

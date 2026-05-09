@@ -3,8 +3,11 @@ package shopix;
 import javax.swing.*;
 
 public class PaymentFrame extends JFrame {
+    private JFrame parentFrame; 
 
-	public PaymentFrame(double totalPrice) {
+    public PaymentFrame(Cart cart, JFrame parentFrame) { 
+        this.parentFrame = parentFrame; // Referansı saklar.
+        double totalPrice = cart.getTotalPrice();
 
         setTitle("Ödeme Ekranı");
         setSize(450, 300);
@@ -30,7 +33,6 @@ public class PaymentFrame extends JFrame {
         // KREDİ KARTI
         // =======================
         cardBtn.addActionListener(e -> {
-
             try {
                 String name = JOptionPane.showInputDialog(this, "Kart Sahibi:");
                 String number = JOptionPane.showInputDialog(this, "16 haneli Kart No:");
@@ -38,18 +40,11 @@ public class PaymentFrame extends JFrame {
 
                 if (name == null || number == null || cvv == null) return;
 
-                CreditCard card = new CreditCard(number.trim(), cvv.trim(), "12/28");
+                CreditCard cardDetails = new CreditCard(number.trim(), cvv.trim(), "12/28");
+                PaymentStrategy<CreditCard> payment = (PaymentStrategy<CreditCard>) PaymentFactory.getPayment("card");
+                payment.pay(cardDetails);
 
-                PaymentStrategy<CreditCard> payment =
-                        (PaymentStrategy<CreditCard>) PaymentFactory.getPayment("card");
-
-                payment.pay(card);
-
-                JOptionPane.showMessageDialog(this,
-                        "Kredi kartı ile ödeme başarılı!\nTutar: " + totalPrice);
-
-                dispose();
-
+                tamamlaOdeme(cart, totalPrice);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
@@ -59,22 +54,14 @@ public class PaymentFrame extends JFrame {
         // PAYPAL
         // =======================
         paypalBtn.addActionListener(e -> {
-
             try {
                 String email = JOptionPane.showInputDialog(this, "Email:");
-
                 if (email == null) return;
 
-                PaymentStrategy<String> payment =
-                        (PaymentStrategy<String>) PaymentFactory.getPayment("paypal");
-
+                PaymentStrategy<String> payment = (PaymentStrategy<String>) PaymentFactory.getPayment("paypal");
                 payment.pay(email);
 
-                JOptionPane.showMessageDialog(this,
-                        "PayPal ödeme başarılı!\nTutar: " + totalPrice);
-
-                dispose();
-
+                tamamlaOdeme(cart, totalPrice);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
@@ -84,23 +71,37 @@ public class PaymentFrame extends JFrame {
         // KAPIDA ÖDEME
         // =======================
         cashBtn.addActionListener(e -> {
-
             try {
-                PaymentStrategy<Double> payment =
-                        (PaymentStrategy<Double>) PaymentFactory.getPayment("cash");
-
+                PaymentStrategy<Double> payment = (PaymentStrategy<Double>) PaymentFactory.getPayment("cash");
                 payment.pay(totalPrice);
 
-                JOptionPane.showMessageDialog(this,
-                        "Kapıda ödeme seçildi!\nTutar: " + totalPrice);
-
-                dispose();
-
+                tamamlaOdeme(cart, totalPrice);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         });
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    /**
+     *  Stok düşer ve ilgili arayüzü yeniler.
+     */
+    private void tamamlaOdeme(Cart cart, double totalPrice) {
+        // 1. STOK AZALTMA VE SİPARİŞ OLUŞTURMA
+        Order order = new Order();
+        order.createFromCart(cart, ProductManager.getInstance());
+
+        // 2. ARAYÜZÜ YENİLE 
+        if (parentFrame instanceof ProductFrame) {
+            ((ProductFrame) parentFrame).refreshTable();
+        } else if (parentFrame instanceof MainScreen) {
+            ((MainScreen) parentFrame).refreshTable();
+        }
+
+        JOptionPane.showMessageDialog(this, "Ödeme başarılı! Stoklar güncellendi.\nTutar: " + totalPrice);
+        dispose();
     }
 }
