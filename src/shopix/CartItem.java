@@ -1,8 +1,7 @@
 package shopix;
 
-/*CartItem sınıfı, alışveriş sepetindeki her bir öğeyi (ürün ve miktar) temsil eder.
+//CartItem sınıfı, alışveriş sepetindeki her bir ögeyi (ürün ve miktar) temsil eder.
 
- */
 public class CartItem {
 	private Product product;
     private int quantity;

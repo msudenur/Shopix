@@ -1,19 +1,20 @@
 package shopix;
 //Factory design Pattern uygular.İstenen ödeme tipine göre uygun nesneyi oluşturup döndürür.
 public class PaymentFactory {
-	public static PaymentStrategy<?> getPayment(String type) throws Exception {
-
-        // Kullanıcının girdiği tipi küçük harfe çevirerek kontrol eder
-        switch (type.toLowerCase()) {
-            case "card":
-                return new CreditCardPayment(); // Kredi kartı nesnesi üret
-            case "paypal":
-                return new PayPalPayment();     // PayPal nesnesi üret
-            case "cash":
-                return new CashPayment();       // Kapıda ödeme nesnesi üret
-            default:
-                // Tanınmayan bir tip girilirse programı uyarır
-                throw new Exception("Geçersiz ödeme tipi: " + type);
-        }
-    }
-}
+	//Kredi kartı ile ödeme stratejisini oluşturur ve döndürür
+	 public static PaymentStrategy<CreditCard> card() {
+		// CreditCardPayment nesnesi oluşturulup üst tip olarak döndürülür.
+	        return new CreditCardPayment();
+	    }
+	 
+	//E-posta ile ödeme stratejisini oluşturur ve döndürür
+	    public static PaymentStrategy<String> paypal() {
+	    	// PayPalPayment nesnesi oluşturulup üst tip olarak döndürülür.
+	        return new PayPalPayment();
+	    }
+	  //Kapıda ödeme stratejisini oluşturur ve döndürür
+	    public static PaymentStrategy<Double> cash() {
+	    	// CashPayment nesnesi oluşturulup üst tip olarak döndürülür.
+	        return new CashPayment();
+	    }
+ }

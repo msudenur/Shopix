@@ -44,7 +44,7 @@ public class PaymentFrame extends JFrame {
                 if (name == null || number == null || cvv == null) return;
 
                 CreditCard cardDetails = new CreditCard(number.trim(), cvv.trim(), "12/28");
-                PaymentStrategy<CreditCard> payment = (PaymentStrategy<CreditCard>) PaymentFactory.getPayment("card");
+                PaymentStrategy<CreditCard> payment = PaymentFactory.card();
                 payment.pay(cardDetails);
 
                 tamamlaOdeme(cart, totalPrice);
@@ -61,7 +61,7 @@ public class PaymentFrame extends JFrame {
                 String email = JOptionPane.showInputDialog(this, "Email:");
                 if (email == null) return;
 
-                PaymentStrategy<String> payment = (PaymentStrategy<String>) PaymentFactory.getPayment("paypal");
+                PaymentStrategy<String> payment = PaymentFactory.paypal();
                 payment.pay(email);
 
                 tamamlaOdeme(cart, totalPrice);
@@ -75,7 +75,7 @@ public class PaymentFrame extends JFrame {
         // =======================
         cashBtn.addActionListener(e -> {
             try {
-                PaymentStrategy<Double> payment = (PaymentStrategy<Double>) PaymentFactory.getPayment("cash");
+            	PaymentStrategy<Double> payment = PaymentFactory.cash();
                 payment.pay(totalPrice);
 
                 tamamlaOdeme(cart, totalPrice);

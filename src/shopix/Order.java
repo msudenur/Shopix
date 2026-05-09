@@ -17,12 +17,12 @@ public class Order {
     
     // Sepetten sipariş oluşturma
     public void createFromCart (Cart cart, ProductManager manager) {
-        if (cart.getItems().isEmpty()) {
+        if (cart.getItems().isEmpty()) {// Sepet boşsa sipariş oluşturma işlemini iptal etme
             System.out.println("Hata: Sepet boş!");
             return;
         }
-        
-        this.items = new ArrayList<>(cart.getItems());
+     // Sepetteki öğelerin bir kopyasını alma
+        this.items = List.copyOf(cart.getItems());
         this.totalPrice = cart.getTotalPrice();
         this.status = "CREATED";
         
@@ -33,7 +33,7 @@ public class Order {
                 item.getQuantity());
         }
         
-       
+     // Sipariş tamamlandıktan sonra sepetin içeriğini temizle
         cart.clear();
     }
     
@@ -41,7 +41,7 @@ public class Order {
     public void updateStatus(String status) {
         this.status = status;
     }
-    
+    // --- Getter ve Setter Metotları ---
     public double getTotalPrice() {
         return totalPrice;
     }

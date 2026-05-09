@@ -1,7 +1,6 @@
 package shopix;
 
 /* PaymentStrategy arayüzü, farklı ödeme yöntemleri için ortak bir şablon sunar.
- * Strategy Design Pattern kullanılarak ödeme mantığının esnek olmasını sağlar.
  * <T> Ödeme detaylarının tipini temsil eden Generic parametre (Örn: CardDetails, IbanInfo)
  */
 public interface PaymentStrategy<T> {
