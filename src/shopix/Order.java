@@ -63,7 +63,4 @@ public class Order {
         return orderId;
     }
 	
-	//sınıf sürüm damgası.
-	private static final long serialVersionUID = 1L;
-	
 }

@@ -8,7 +8,4 @@ public class CashPayment extends Payment<Double> {
         //Özel bilgilendirme mesaji
         System.out.println("Kapıda ödeme seçildi. Tutar: " + amount + " TL");
     }
-	
-	//sınıf  sürüm damgası
-	private static final long serialVersionUID = 1L;
 }

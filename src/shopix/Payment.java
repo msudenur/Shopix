@@ -6,7 +6,4 @@ public abstract class Payment<T> implements PaymentStrategy<T> {
 	protected void logPayment() {
         System.out.println("Ödeme işlemi başlatıldı...");
     }
-	
-	//Sınıf sürüm damgası
-	private static final long serialVersionUID = 1L;
 }

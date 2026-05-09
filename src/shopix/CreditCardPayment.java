@@ -10,6 +10,4 @@ public class CreditCardPayment extends Payment<CreditCard> {
 	        System.out.println("Kredi kartı ile ödeme başarılı: " + details.getCardNo());
 	    }
 	 
-	//sınıf  sürüm damgası
-	 private static final long serialVersionUID = 1L;
 }

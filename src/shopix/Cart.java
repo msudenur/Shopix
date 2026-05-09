@@ -45,8 +45,5 @@ public class Cart {
     public void clear() {
         items.clear();
     }
-	
-    //sınıf  sürüm damgası
-	private static final long serialVersionUID = 1L;
 
 }

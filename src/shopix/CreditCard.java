@@ -22,8 +22,5 @@ public class CreditCard {
 	 public String getCardNo() {
 	        return cardNo;
 	 }
-	
-	//sınıf  sürüm damgası
-	private static final long serialVersionUID = 1L;
 	 
 }
