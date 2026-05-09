@@ -1,9 +1,9 @@
 package shopix;
-import java.io.Serializable; // Nesnenin dosyaya kaydedilebilmesi veya ağ üzerinden gönderilebilmesi için gerekli
+
 /*CartItem sınıfı, alışveriş sepetindeki her bir öğeyi (ürün ve miktar) temsil eder.
- * Serializable arayüzünü uygulayarak nesne durumunun korunmasını sağlar.
+
  */
-public class CartItem implements Serializable{
+public class CartItem {
 	private Product product;
     private int quantity;
     

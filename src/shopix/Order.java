@@ -1,5 +1,4 @@
 package shopix;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import java.util.List;
  * Sepetteki ürünleri dondurur, stoktan düşer ve bir sipariş numarası atar.
  */
 
-public class Order implements Serializable {
+public class Order {
 	
 	private static int counter = 1; // Tüm siparişler arasında paylaşılan ve her yeni siparişte artan sayaç
 	private int orderId;

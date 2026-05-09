@@ -1,11 +1,10 @@
 package shopix;
 
-import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductManager implements IShopOperations, Serializable {
+public class ProductManager implements IShopOperations {
     private static ProductManager instance;
     private IDataBase dbManager; 
     private static final String DB_URL = "jdbc:sqlite:shopix.db";

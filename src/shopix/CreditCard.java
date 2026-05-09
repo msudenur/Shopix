@@ -1,8 +1,7 @@
 package shopix;
-import java.io.Serializable;
 
 //Kullanıcı eğer credi cartı ile ödemeyi seçerse girilen kart bilgilerini tutar.
-public class CreditCard implements Serializable {
+public class CreditCard {
 	 private String cardNo;
 	 private String cvv;
 	 private String date;

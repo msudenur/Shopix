@@ -1,11 +1,10 @@
 package shopix;
-import java.io.Serializable;// Nesnenin dosyaya kaydedilebilmesi veya ağ üzerinden gönderilebilmesi için gerekli
 import java.util.ArrayList;
 import java.util.List;
 /*
  * Cart sınıfı, müşterinin seçtiği ürünleri yöneten alışveriş sepetini temsil eder.
  */
-public class Cart implements Serializable{
+public class Cart {
 	// Sepetteki ürünlerin (CartItem) tutulduğu dinamik liste
 	private List<CartItem> items = new ArrayList<>();
 	
