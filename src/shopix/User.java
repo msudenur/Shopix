@@ -56,15 +56,21 @@ public class User {
 
 	private String password;
 	
-	public User (int id,String name, String email, String username,String password,String role){
-		this.id=id;
+	public User (String name, String email, String username,String password,String role){
 		this.name=name;
 		this.email=email;
 		this.username=username;
 		this.password=password;
 		this.role=role;
 	}
-	
+	public User(int id, String name, String email, String username, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 	
 
 }

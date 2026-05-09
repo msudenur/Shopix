@@ -2,65 +2,60 @@ package shopix;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Order sınıfı, tamamlanmış bir alışveriş işlemini temsil eder.
- * Sepetteki ürünleri dondurur, stoktan düşer ve bir sipariş numarası atar.
- */
-
 public class Order {
-	
-	private static int counter = 1; // Tüm siparişler arasında paylaşılan ve her yeni siparişte artan sayaç
-	private int orderId;
-	private List<CartItem> items;  // Sipariş edilen ürünlerin listesi
-	private double totalPrice;
-	private String status;  // Siparişin durumu
-	
-	// Program başladığında çağrılacak metod
-    public static void setCounter(int startValue) {
-        counter = startValue;
+    
+  
+    private int orderId;
+    private List<CartItem> items;  
+    private double totalPrice;
+    private String status; 
+ 
+    public Order() {
+        this.items = new ArrayList<>();
+        this.status = "CREATED"; 
     }
-	
-	//Yapıcı metot: Yeni bir sipariş oluşturulduğunda otomatik bir ID atar.
-	public Order() {
-		this.orderId = counter++;
-		this.items = new ArrayList<>();
-	}
-	
-	//Sepetten sipariş oluşturma.
-	 public void createFromCart (Cart cart, ProductManager manager) {
-		// Sepet boşsa sipariş oluşturulmamalı
-		    if (cart.getItems().isEmpty()) {
-		        System.out.println("Hata: Sepet boş!");
-		        return;
-		    }
-		 //Ürünlerin bir kopyasını oluşturma.
-		  this.items = new ArrayList<>(cart.getItems());
-	      this.totalPrice = cart.getTotalPrice();
-	      this.status = "CREATED";
-	      
-	      //Stok yönetimi. Sepetteki her bir ürün için stok miktarını düşürürür.
-	      for (CartItem item : items) {
-	            manager.reduceStock(
-	            	item.getProduct().getProductId(),
-	            	item.getQuantity());
-	      }
-	      //sipariş oluştuktan sonra sepeti sıfırlar.
-	      cart.clear();
-	 }
-	
-	//ürün durumunu güncelleme
-	public void updateStatus(String status) {
+    
+    // Sepetten sipariş oluşturma
+    public void createFromCart (Cart cart, ProductManager manager) {
+        if (cart.getItems().isEmpty()) {
+            System.out.println("Hata: Sepet boş!");
+            return;
+        }
+        
+        this.items = new ArrayList<>(cart.getItems());
+        this.totalPrice = cart.getTotalPrice();
+        this.status = "CREATED";
+        
+        // Sepetteki her bir ürün için stok miktarını düşürür
+        for (CartItem item : items) {
+            manager.reduceStock(
+                item.getProduct().getProductId(),
+                item.getQuantity());
+        }
+        
+       
+        cart.clear();
+    }
+    
+    // Ürün durumunu güncelleme
+    public void updateStatus(String status) {
         this.status = status;
     }
-	//getter metotları.
+    
     public double getTotalPrice() {
         return totalPrice;
     }
+    
     public String getStatus() {
         return status;
     }
+    
     public int getOrderId() {
         return orderId;
     }
-	
+
+    
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 }

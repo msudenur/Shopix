@@ -86,7 +86,7 @@ public class LoginFrame extends JFrame {
                 if (name.isEmpty()) name = "İsimsiz Kullanıcı";
 
                 // Yeni kullanıcıyı "CUSTOMER" rolüyle oluşturuyoruz
-                User newUser = new User(0, name, email, user, pass, "CUSTOMER");
+                User newUser = new User(0,name, email, user, pass, "CUSTOMER");
 
                 boolean result = userManager.register(newUser);
 
