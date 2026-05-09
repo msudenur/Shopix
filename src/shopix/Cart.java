@@ -10,10 +10,9 @@ public class Cart {
 	
 	//Sepete ürün ekler, ekliyse miktarı günceller.
     public void addProduct(Product product, int qty) {
-        for (CartItem item : items) { //ürün daha önce kelenmiş mi kontrolü
+        for (CartItem item : items) { //ürün daha önce eklenmiş mi kontrolü
             if (item.getProduct().getProductId() == product.getProductId()) {
-                items.remove(item); //eskisini sil
-                items.add(new CartItem(product, item.getQuantity() + qty)); //yeni şekilde güncelle
+                item.setQuantity(item.getQuantity() + qty); //yeni şekilde güncelle
                 return;
             }
         }
