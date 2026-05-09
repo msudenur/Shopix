@@ -1,5 +1,21 @@
 # Shopix
 Java-based Object-Oriented Programming project developed by a team of 4 students.
+
+## Gereksinimler
+
+Kodun çalışması için sisteminizde aşağıdakilerin kurulu olması gerekir:
+
+1. **Java Development Kit (JDK):**
+   - En az Java 8
+   - Tercihen Java 17 veya üzeri
+
+2. **Java IDE**
+   - Eclipse IDE önerilmektedir.
+
+3. **SQLite JDBC Driver**
+   - Projenin veritabanına bağlanabilmesi için
+     `sqlite-jdbc.jar` dosyasının projenin Build Path / ClassPath kısmına eklenmiş olması gerekir.
+
 ## Projeyi Çalıştırma
 
 1. Projeyi Eclipse IDE veya başka bir Java IDE ile açın.
