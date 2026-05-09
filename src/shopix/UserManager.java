@@ -1,4 +1,10 @@
 package shopix;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import java.util.ArrayList;
 
@@ -31,12 +37,12 @@ public class UserManager {
         
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         
-        try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:shopix.db");
-             java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:shopix.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-            java.sql.ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 return new User(
@@ -49,7 +55,7 @@ public class UserManager {
                 );
             
             }
-        } catch (java.sql.SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Login hatası: " + e.getMessage());
         }
         return null;
@@ -59,16 +65,16 @@ public class UserManager {
         // Belirli bir kullanıcının var olup olmadığını SQL ile kontrol edilir
         String sql = "SELECT count(*) FROM users WHERE username = ?";
         
-        try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:shopix.db");
-             java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:shopix.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, username);
-            java.sql.ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             
             if (rs.next()) {
                 return rs.getInt(1) > 0; // Eğer count 0'dan büyükse kullanıcı vardır
             }
-        } catch (java.sql.SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Kontrol hatası: " + e.getMessage());
         }
         return false;
@@ -77,9 +83,9 @@ public class UserManager {
      
         ArrayList<User> userList = new ArrayList<>();
         String sql = "SELECT * FROM users";
-        try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:shopix.db");
-             java.sql.Statement stmt = conn.createStatement();
-             java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:shopix.db");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             
         	while (rs.next()) {
         	   
@@ -92,7 +98,7 @@ public class UserManager {
         	        rs.getString("role")
         	    ));
         	}
-        } catch (java.sql.SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Liste çekme hatası: " + e.getMessage());
         }
         return userList;

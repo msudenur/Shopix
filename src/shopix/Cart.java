@@ -1,9 +1,9 @@
 package shopix;
 import java.util.ArrayList;
 import java.util.List;
-/*
- * Cart sınıfı, müşterinin seçtiği ürünleri yöneten alışveriş sepetini temsil eder.
- */
+
+//Cart sınıfı, müşterinin seçtiği ürünleri yöneten alışveriş sepetini temsil eder.
+ 
 public class Cart {
 	// Sepetteki ürünlerin (CartItem) tutulduğu dinamik liste
 	private List<CartItem> items = new ArrayList<>();
